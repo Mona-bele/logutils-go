@@ -127,6 +127,12 @@ Você pode configurar o nível de log usando a variável de ambiente `LOG_LEVEL`
 export LOG_LEVEL=info
 ```
 
+Você também pode configurar o caminho do arquivo de log usando a variável de ambiente `LOG_PATH`.
+
+```bash
+export LOG_PATH=logFilePath
+```
+
 ### Contribuição
 
 Contribuições são bem-vindas! Siga estas etapas para contribuir:
