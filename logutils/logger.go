@@ -19,9 +19,6 @@ func InitLogger() {
 	// Log file path: can be modified based on the environment
 	logFilePath := os.Getenv("LOG_PATH")
 	if logFilePath != "" {
-
-		logFilePath = "/var/log/" + logFilePath
-
 		// Open the log file
 		f, err := os.OpenFile(logFilePath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
