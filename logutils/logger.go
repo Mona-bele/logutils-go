@@ -15,13 +15,12 @@ type Fields map[string]interface{}
 // The log level can be set using the LOG_LEVEL environment variable.
 // The log output can be redirected to a file by setting the LOG_PATH environment variable.
 // If the LOG_PATH environment variable is not set, the log output will be directed to stdout.
-// The default log level is DEBUG.
-func InitLogger() zerolog.Logger {
+// The log level defaults to Debug if the LOG_LEVEL environment variable is not set.
+// The log file path defaults to log.log if the LOG_PATH environment variable is not set.
+func InitLogger() {
 
 	// Set Zerolog's output format to JSON
 	zerolog.TimeFieldFormat = time.RFC3339
-
-	var log zerolog.Logger
 
 	// Log file path: can be modified based on the environment
 	logFilePath := os.Getenv("LOG_PATH")
@@ -33,12 +32,12 @@ func InitLogger() zerolog.Logger {
 		}
 
 		// Set the log file as the output
-		log = zerolog.New(f)
+		log.Logger = zerolog.New(f).With().CallerWithSkipFrameCount(3).Logger()
 
 	} else {
 		// Standard output (stdout) to be captured by the container logging driver
 		// Log to stdout
-		log = zerolog.New(os.Stdout).With().Caller().Logger()
+		log.Logger = zerolog.New(os.Stdout).With().CallerWithSkipFrameCount(3).Logger()
 	}
 
 	// Log level: can be modified based on the environment (debug, info, etc.)
@@ -50,7 +49,6 @@ func InitLogger() zerolog.Logger {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 
-	return log
 }
 
 // Info logs an information message.
